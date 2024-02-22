@@ -2,6 +2,7 @@ package com.example.navigationdrawer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -9,11 +10,12 @@ import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle
-    var drawerLayout: DrawerLayout = findViewById(R.id.navView)
+    lateinit var drawerLayout: DrawerLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        drawerLayout = findViewById(R.id.drawer)
         toggle = ActionBarDrawerToggle(
             this@MainActivity, drawerLayout, R.string.open ,R.string.close
         )
@@ -31,7 +33,20 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> {
                     replaceFragment(HomeFragment(), it.title.toString())
                 }
+
+                R.id.message ->{
+                    replaceFragment(MessageFragment(), it.title.toString())
+                }
+
+                R.id.settings ->{
+                    replaceFragment(SettingsFragment(), it.title.toString())
+                }
+
+                R.id.login ->{
+                    replaceFragment(LoginFragment(), it.title.toString())
+                }
             }
+            true
         }
     }
 
@@ -42,5 +57,12 @@ class MainActivity : AppCompatActivity() {
         fragTrans.commit()
         drawerLayout.closeDrawers()
         setTitle(title)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(toggle.onOptionsItemSelected(item)){
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
